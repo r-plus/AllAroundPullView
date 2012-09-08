@@ -103,7 +103,7 @@ static const CGFloat kSidePullViewWidth = 60.0f;
         self.backgroundColor = [UIColor clearColor];
         self.threshold = 60.0f;
         self.arrowImage = [[[CALayer alloc] init] autorelease];
-        UIImage *arrow = [UIImage imageNamed:@"arrow.png"];
+        UIImage *arrow = [UIImage imageNamed:@"Sleipnizer_arrow.png"];
         self.arrowImage.contents = (id) arrow.CGImage;
         CGRect arrowAndActivityFrame;
         if (self.isSideView) {
