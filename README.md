@@ -8,7 +8,9 @@ AllAroundPullView allow you to 4 direction Pull-To-Refresh feature.
 
 ## Usage
 
-    AllAroundPullView *pull = [AllAroundPullView alloc] initWithScrollView:scrollView position:AllAroundPullViewPositionTop action:^(AllAroundPullView *view){
+    AllAroundPullView *pull = [AllAroundPullView alloc] initWithScrollView:scrollView
+                                                                  position:AllAroundPullViewPositionTop
+                                                                    action:^(AllAroundPullView *view){
       // do anything
       [view performSelector:@selector(finishedLoading) withObject:nil afterDelay:0.0f];
     }];
