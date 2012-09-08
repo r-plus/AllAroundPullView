@@ -1,7 +1,7 @@
 # AllAroundPullView
 AllAroundPullView allow you to 4 direction Pull-To-Refresh feature.
 
-## Instalation
+## Installation
 * Import `AllAroundPullView.h/m and arrow image` to your project.
 * Add *QuartzCore* framework to your project.
 * `#import "AllAroundPullView.h"`
