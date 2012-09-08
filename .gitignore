@@ -1,0 +1,20 @@
+# XCode
+build
+*.mode1v3
+*.mode2v3
+*.nib
+*.swp
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.xcworkspace
+xcuserdata
+
+# OSX
+.DS_Store
+
+# TextMate
+*.tm_build_errors
+
+# AppCode
+*.idea
