@@ -69,7 +69,7 @@ static const CGFloat kSidePullViewWidth = 60.0f;
 }
 
 - (void)layoutSubviews {
-    CGFloat visibleBottom = self.position == AllAroundPullViewPositionBottom ? kViewHeight : self.frame.size.height;
+    CGFloat visibleBottom = self.position == AllAroundPullViewPositionBottom ? kViewHeight - 10.0f : self.frame.size.height + 10.0f;
     CGFloat visibleLeft = self.position == AllAroundPullViewPositionLeft ? kSidePullViewWidth : self.frame.size.width;
     if (self.isSideView)
         self.arrowImage.position = CGPointMake(visibleLeft - kSidePullViewWidth + 30.0f, self.frame.size.height / 2.0f);
@@ -103,14 +103,14 @@ static const CGFloat kSidePullViewWidth = 60.0f;
         self.backgroundColor = [UIColor clearColor];
         self.threshold = 60.0f;
         self.arrowImage = [[[CALayer alloc] init] autorelease];
-        UIImage *arrow = [UIImage imageNamed:@"arrow.png"];
+        UIImage *arrow = [UIImage imageWithContentsOfFile:@"/Library/Application Support/PullToSyncForReeder3/arrow.png"];
         self.arrowImage.contents = (id) arrow.CGImage;
         CGRect arrowAndActivityFrame;
         if (self.isSideView) {
             CGFloat sideArrowPositionOffset = (self.position == AllAroundPullViewPositionLeft) ? kSidePullViewWidth - 10.0f : self.frame.size.width - 15.0f;
             arrowAndActivityFrame = CGRectMake(sideArrowPositionOffset - kSidePullViewWidth + 30.0f, self.frame.size.height / 2.0f - 30.0f, arrow.size.width, arrow.size.height);
         } else {
-            CGFloat arrowPositionOffset = (self.position == AllAroundPullViewPositionBottom) ? kViewHeight : self.frame.size.height;
+            CGFloat arrowPositionOffset = (self.position == AllAroundPullViewPositionBottom) ? kViewHeight - 5.0f : self.frame.size.height + 20.0f;
             arrowAndActivityFrame = CGRectMake(self.frame.size.width / 2.0f - arrow.size.width / 2.0f, arrowPositionOffset - kViewHeight + 5.0f, arrow.size.width, arrow.size.height);
         }
         self.arrowImage.frame = arrowAndActivityFrame;
@@ -121,7 +121,7 @@ static const CGFloat kSidePullViewWidth = 60.0f;
             self.arrowImage.contentsScale = [[UIScreen mainScreen] scale];
         [self.layer addSublayer:self.arrowImage];
 
-        self.activityView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+        self.activityView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
         self.activityView.autoresizingMask = self.isSideView ? (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin) : UIViewAutoresizingFlexibleWidth;
         self.activityView.frame = arrowAndActivityFrame;
         [self addSubview:self.activityView];
