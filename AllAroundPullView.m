@@ -84,7 +84,7 @@ static const CGFloat kSidePullViewWidth = 60.0f;
             break;
         case AllAroundPullViewPositionLeft:
         case AllAroundPullViewPositionRight:
-            offset = (position == AllAroundPullViewPositionLeft) ? -kSidePullViewWidth : scroll.contentSize.width;
+            offset = (position == AllAroundPullViewPositionLeft) ? -kSidePullViewWidth + 20.0f : scroll.contentSize.width - 20.0f;
             frame = CGRectMake(offset, 0.0f, kSidePullViewWidth, scroll.frame.size.height);
             break;
     }
