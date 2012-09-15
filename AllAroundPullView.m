@@ -215,16 +215,16 @@ static const CGFloat kSidePullViewWidth = 60.0f;
 - (BOOL)isScrolledOverThreshold {
     switch (self.position) {
         case AllAroundPullViewPositionTop:
-            return self.scrollView.contentOffset.y <= -self.threshold;
+            return self.scrollView.contentOffset.y + self.scrollView.contentInset.top <= -self.threshold;
         case AllAroundPullViewPositionBottom:
             if (self.scrollView.contentSize.height > self.scrollView.frame.size.height)
-                return self.scrollView.contentOffset.y >= (self.scrollView.contentSize.height - self.scrollView.frame.size.height) + self.threshold;
+                return self.scrollView.contentOffset.y - self.scrollView.contentInset.bottom >= (self.scrollView.contentSize.height - self.scrollView.frame.size.height) + self.threshold;
             else
                 return self.scrollView.contentOffset.y >= self.threshold;
         case AllAroundPullViewPositionLeft:
-            return self.scrollView.contentOffset.x <= -self.threshold;
+            return self.scrollView.contentOffset.x + self.scrollView.contentInset.left <= -self.threshold;
         case AllAroundPullViewPositionRight:
-            return self.scrollView.contentOffset.x >= (self.scrollView.contentSize.width - self.scrollView.frame.size.width) + self.threshold;
+            return self.scrollView.contentOffset.x - self.scrollView.contentInset.right >= (self.scrollView.contentSize.width - self.scrollView.frame.size.width) + self.threshold;
     }
 
     return NO;
