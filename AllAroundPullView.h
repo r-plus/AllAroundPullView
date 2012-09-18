@@ -14,8 +14,8 @@
 
 typedef enum {
   AllAroundPullViewStateNormal = 0,
-	AllAroundPullViewStateReady,
-	AllAroundPullViewStateLoading,
+  AllAroundPullViewStateReady,
+  AllAroundPullViewStateLoading,
   AllAroundPullViewStateNone
 } AllAroundPullViewState;
 
@@ -32,6 +32,7 @@ typedef enum {
 }
 
 @property (nonatomic, retain) UIScrollView *scrollView;
+@property (nonatomic, assign) UIEdgeInsets originalInset;
 @property (nonatomic, assign) NSTimeInterval timeout;
 @property (nonatomic, assign) CGFloat threshold;
 @property (nonatomic, retain) CALayer *arrowImage;

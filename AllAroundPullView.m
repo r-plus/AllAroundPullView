@@ -28,7 +28,7 @@
 @end
 
 @implementation AllAroundPullView
-@synthesize scrollView, arrowImage, activityView, timeout, threshold, allAroundPullViewActionHandler;
+@synthesize scrollView, originalInset, arrowImage, activityView, timeout, threshold, allAroundPullViewActionHandler;
 @synthesize position = _position;
 
 static const CGFloat kViewHeight = 60.0f;
@@ -231,17 +231,16 @@ static const CGFloat kSidePullViewWidth = 60.0f;
 }
 
 - (void)parkVisible {
+    self.originalInset = self.scrollView.contentInset;
     if (self.position == AllAroundPullViewPositionTop)
-        self.scrollView.contentInset = UIEdgeInsetsMake(kViewHeight, 0.0f, 0.0f, 0.0f);
+        self.scrollView.contentInset = UIEdgeInsetsMake(kViewHeight + self.originalInset.top, self.originalInset.left, self.originalInset.bottom, self.originalInset.right);
     else if (self.position == AllAroundPullViewPositionBottom)
-        self.scrollView.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, kViewHeight, 0.0f);
+        self.scrollView.contentInset = UIEdgeInsetsMake(self.originalInset.top, self.originalInset.left, kViewHeight + self.originalInset.bottom, self.originalInset.right);
 }
 
 - (void)hide {
-    if (self.position == AllAroundPullViewPositionTop)
-        self.scrollView.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, self.scrollView.contentInset.bottom, 0.0f);
-    else if (self.position == AllAroundPullViewPositionBottom)
-        self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollView.contentInset.top, 0.0f, 0.0f, 0.0f);
+    if (!self.isSideView)
+        self.scrollView.contentInset = self.originalInset;
 }
 
 - (void)handleDragWhileLoading {
