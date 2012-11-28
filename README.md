@@ -31,5 +31,8 @@ So, like this.
     pull.threshold = 120.0f;
     pull.activityView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
 
+## delegate design pattern
+maintained in `delegate` branch.
+
 ## License
 See LICENSE file.
