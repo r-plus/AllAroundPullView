@@ -8,14 +8,21 @@ AllAroundPullView allow you to 4 direction Pull-To-Refresh feature.
 
 ## Usage
 
+Add section.
+
     AllAroundPullView *pull = [[AllAroundPullView alloc] initWithScrollView:scrollView
-                                                                   position:AllAroundPullViewPositionTop
-                                                                     action:^(AllAroundPullView *view){
-      // do anything
-      [view performSelector:@selector(finishedLoading) withObject:nil afterDelay:0.0f];
-    }];
+                                                                   position:AllAroundPullViewPositionTop];
+    pull.delegate = self;
     [scrollView addSubview:pull];
     [pull release];
+
+delegate section.
+
+    - (void)pullViewShouldRefresh:(AllAroundPullView *)view
+    {
+        // do anything...
+        [view performSelector:@selector(finishedLoading) withObject:nil afterDelay:0.0f];
+    }
 
 ### Customization
 You can customize `timeout, threshold, activityView` from property.

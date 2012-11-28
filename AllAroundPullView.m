@@ -28,7 +28,7 @@
 @end
 
 @implementation AllAroundPullView
-@synthesize scrollView, originalInset, arrowImage, activityView, timeout, threshold, allAroundPullViewActionHandler;
+@synthesize scrollView, originalInset, arrowImage, activityView, timeout, threshold, delegate;
 @synthesize position = _position;
 
 static const CGFloat kViewHeight = 60.0f;
@@ -61,11 +61,6 @@ static const CGFloat kSidePullViewWidth = 60.0f;
             self.arrowImage.transform = (flipped ^ isBottom ? CATransform3DMakeRotation(M_PI * 2, 0.0f, 0.0f, 1.0f) : CATransform3DMakeRotation(M_PI, 0.0f, 0.0f, 1.0f));
         }];
     }
-}
-
-- (id)initWithScrollView:(UIScrollView *)scroll position:(AllAroundPullViewPosition)position action:(void (^)(AllAroundPullView *view))actionHandler {
-    self.allAroundPullViewActionHandler = Block_copy(actionHandler);
-    return [self initWithScrollView:scroll position:position];
 }
 
 - (void)layoutSubviews {
@@ -282,8 +277,8 @@ static const CGFloat kSidePullViewWidth = 60.0f;
                 [UIView animateWithDuration:0.2f animations:^{
                     [self setState:AllAroundPullViewStateLoading];
                 }];
-                if (allAroundPullViewActionHandler)
-                    allAroundPullViewActionHandler(self);
+                if ([self.delegate respondsToSelector:@selector(pullViewShouldRefresh:)])
+                    [self.delegate pullViewShouldRefresh:self];
             }
         }
     }
@@ -318,8 +313,6 @@ static const CGFloat kSidePullViewWidth = 60.0f;
     [self.scrollView release];
     [self.arrowImage release];
     [self.activityView release];
-    if (self.allAroundPullViewActionHandler)
-        Block_release(self.allAroundPullViewActionHandler);
     [super dealloc];
 }
 
