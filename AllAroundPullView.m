@@ -64,7 +64,7 @@ static const CGFloat kSidePullViewWidth = 60.0f;
 }
 
 - (id)initWithScrollView:(UIScrollView *)scroll position:(AllAroundPullViewPosition)position action:(void (^)(AllAroundPullView *view))actionHandler {
-    self.allAroundPullViewActionHandler = Block_copy(actionHandler);
+    self.allAroundPullViewActionHandler = actionHandler;
     return [self initWithScrollView:scroll position:position];
 }
 
