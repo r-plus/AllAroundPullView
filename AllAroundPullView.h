@@ -26,6 +26,8 @@ typedef enum {
   AllAroundPullViewPositionRight = 1 << 3
 } AllAroundPullViewPosition;
 
+@protocol AllAroundPullViewDelegate;
+
 @interface AllAroundPullView : UIView {
   AllAroundPullViewState _state;
   AllAroundPullViewPosition _position;
