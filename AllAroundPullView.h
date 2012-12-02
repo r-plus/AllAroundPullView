@@ -38,7 +38,7 @@ typedef enum {
 @property (nonatomic, retain) CALayer *arrowImage;
 @property (nonatomic, retain) UIActivityIndicatorView *activityView;
 @property (nonatomic, readonly) BOOL isSideView;
-@property (assign, readonly) AllAroundPullViewPosition position;
+@property (nonatomic, readonly) AllAroundPullViewPosition position;
 @property (nonatomic, copy) void (^allAroundPullViewActionHandler)(AllAroundPullView *view);
 
 - (void)finishedLoading;
