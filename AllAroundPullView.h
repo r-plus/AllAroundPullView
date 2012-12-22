@@ -31,15 +31,11 @@ typedef enum {
   AllAroundPullViewPosition _position;
 }
 
-@property (nonatomic, retain) UIScrollView *scrollView;
-@property (nonatomic, assign) UIEdgeInsets originalInset;
 @property (nonatomic, assign) NSTimeInterval timeout;
 @property (nonatomic, assign) CGFloat threshold;
-@property (nonatomic, retain) CALayer *arrowImage;
 @property (nonatomic, retain) UIActivityIndicatorView *activityView;
 @property (nonatomic, readonly) BOOL isSideView;
 @property (nonatomic, readonly) AllAroundPullViewPosition position;
-@property (nonatomic, copy) void (^allAroundPullViewActionHandler)(AllAroundPullView *view);
 
 - (void)finishedLoading;
 - (void)hideAllAroundPullViewIfNeed:(BOOL)disable;

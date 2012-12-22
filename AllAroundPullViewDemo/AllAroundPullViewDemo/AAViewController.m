@@ -35,7 +35,7 @@
     [view performSelector:@selector(finishedLoading) withObject:nil afterDelay:1.0f];
   }];
   [self.scrollView addSubview:topPullView];
-  [topPullView release];
+  //[topPullView release];
 
   // bottom
   AllAroundPullView *bottomPullView = [[AllAroundPullView alloc] initWithScrollView:self.scrollView position:AllAroundPullViewPositionBottom action:^(AllAroundPullView *view){
@@ -43,7 +43,7 @@
     [view performSelector:@selector(finishedLoading) withObject:nil afterDelay:1.0f];
   }];
   [self.scrollView addSubview:bottomPullView];
-  [bottomPullView release];
+  //[bottomPullView release];
 
   // left
   AllAroundPullView *leftPullView = [[AllAroundPullView alloc] initWithScrollView:self.scrollView position:AllAroundPullViewPositionLeft action:^(AllAroundPullView *view){
@@ -51,7 +51,7 @@
     [view performSelector:@selector(finishedLoading) withObject:nil afterDelay:1.0f];
   }];
   [self.scrollView addSubview:leftPullView];
-  [leftPullView release];
+  //[leftPullView release];
 
   // right
   AllAroundPullView *rightPullView = [[AllAroundPullView alloc] initWithScrollView:self.scrollView position:AllAroundPullViewPositionRight action:^(AllAroundPullView *view){
@@ -59,7 +59,7 @@
     [view performSelector:@selector(finishedLoading) withObject:nil afterDelay:1.0f];
   }];
   [self.scrollView addSubview:rightPullView];
-  [rightPullView release];
+  //[rightPullView release];
   
 }
 

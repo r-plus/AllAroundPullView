@@ -13,9 +13,13 @@
 
 #define FLIP_ANIMATION_DURATION 0.18f
 
-@interface AllAroundPullView (Private)
+@interface AllAroundPullView ()
 
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) CALayer *arrowImage;
 @property (nonatomic, assign) AllAroundPullViewState state;
+@property (nonatomic, assign) UIEdgeInsets originalInset;
+@property (nonatomic, copy) void (^allAroundPullViewActionHandler)(AllAroundPullView *view);
 
 - (void)startTimer;
 - (void)dismissView;
@@ -28,8 +32,6 @@
 @end
 
 @implementation AllAroundPullView
-@synthesize scrollView, originalInset, arrowImage, activityView, timeout, threshold, allAroundPullViewActionHandler;
-@synthesize position = _position;
 
 static const CGFloat kViewHeight = 60.0f;
 static const CGFloat kSidePullViewWidth = 60.0f;
@@ -102,7 +104,7 @@ static const CGFloat kSidePullViewWidth = 60.0f;
         self.autoresizingMask = self.isSideView ? UIViewAutoresizingFlexibleHeight : UIViewAutoresizingFlexibleWidth;
         self.backgroundColor = [UIColor clearColor];
         self.threshold = 60.0f;
-        self.arrowImage = [[[CALayer alloc] init] autorelease];
+        self.arrowImage = [[CALayer alloc] init];
         UIImage *arrow = [UIImage imageNamed:@"arrow.png"];
         self.arrowImage.contents = (id) arrow.CGImage;
         CGRect arrowAndActivityFrame;
@@ -121,7 +123,7 @@ static const CGFloat kSidePullViewWidth = 60.0f;
             self.arrowImage.contentsScale = [[UIScreen mainScreen] scale];
         [self.layer addSublayer:self.arrowImage];
 
-        self.activityView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+        self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         self.activityView.autoresizingMask = self.isSideView ? (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin) : UIViewAutoresizingFlexibleWidth;
         self.activityView.frame = arrowAndActivityFrame;
         [self addSubview:self.activityView];
@@ -282,8 +284,8 @@ static const CGFloat kSidePullViewWidth = 60.0f;
                 [UIView animateWithDuration:0.2f animations:^{
                     [self setState:AllAroundPullViewStateLoading];
                 }];
-                if (allAroundPullViewActionHandler)
-                    allAroundPullViewActionHandler(self);
+                if (self.allAroundPullViewActionHandler)
+                    self.allAroundPullViewActionHandler(self);
             }
         }
     }
@@ -315,12 +317,6 @@ static const CGFloat kSidePullViewWidth = 60.0f;
 - (void)dealloc {
     [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
     [self.scrollView removeObserver:self forKeyPath:@"contentSize"];
-    [self.scrollView release];
-    [self.arrowImage release];
-    [self.activityView release];
-    if (self.allAroundPullViewActionHandler)
-        Block_release(self.allAroundPullViewActionHandler);
-    [super dealloc];
 }
 
 @end
