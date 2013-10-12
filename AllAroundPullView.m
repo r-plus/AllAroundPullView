@@ -124,7 +124,7 @@ static const CGFloat kSidePullViewWidth = 60.0f;
         [self.layer addSublayer:self.arrowImage];
 
         self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        self.activityView.autoresizingMask = self.isSideView ? (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin) : UIViewAutoresizingFlexibleWidth;
+        self.activityView.autoresizingMask = self.isSideView ? (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin) : (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
         self.activityView.frame = arrowAndActivityFrame;
         [self addSubview:self.activityView];
 
