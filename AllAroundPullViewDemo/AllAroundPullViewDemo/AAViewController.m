@@ -27,7 +27,7 @@
   
   self.scrollView.alwaysBounceHorizontal = YES;
   self.scrollView.alwaysBounceVertical = YES;
-  self.scrollView.contentSize = CGSizeMake(320, 460);
+  self.scrollView.contentSize = [UIScreen mainScreen].bounds.size;
 
   // top
   AllAroundPullView *topPullView = [[AllAroundPullView alloc] initWithScrollView:self.scrollView position:AllAroundPullViewPositionTop action:^(AllAroundPullView *view){
