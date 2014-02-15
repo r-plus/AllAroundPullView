@@ -1,4 +1,4 @@
-# AllAroundPullView [![build](https://travis-ci.org/r-plus/Allaroundpullview.png?branch=master)](https://travis-ci.org/r-plus/Allaroundpullview)
+# AllAroundPullView [![build](https://travis-ci.org/r-plus/AllAroundPullView.png?branch=master)](https://travis-ci.org/r-plus/AllAroundPullView)
 AllAroundPullView allow you to 4 direction Pull-To-Refresh feature.
 
 ## Installation
