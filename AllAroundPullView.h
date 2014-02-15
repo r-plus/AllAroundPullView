@@ -26,14 +26,11 @@ typedef enum {
   AllAroundPullViewPositionRight = 1 << 3
 } AllAroundPullViewPosition;
 
-@interface AllAroundPullView : UIView {
-  AllAroundPullViewState _state;
-  AllAroundPullViewPosition _position;
-}
+@interface AllAroundPullView : UIView
 
 @property (nonatomic, assign) NSTimeInterval timeout;
 @property (nonatomic, assign) CGFloat threshold;
-@property (nonatomic, retain) UIActivityIndicatorView *activityView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityView;
 @property (nonatomic, readonly) BOOL isSideView;
 @property (nonatomic, readonly) AllAroundPullViewPosition position;
 

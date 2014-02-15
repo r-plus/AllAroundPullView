@@ -11,8 +11,6 @@
 
 #import "AllAroundPullView.h"
 
-#define FLIP_ANIMATION_DURATION 0.18f
-
 @interface AllAroundPullView ()
 
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -32,67 +30,79 @@
 @end
 
 @implementation AllAroundPullView
-
-static const CGFloat kViewHeight = 60.0f;
-static const CGFloat kSidePullViewWidth = 60.0f;
-
-// dynamic ON/OFF set.
-- (void)hideAllAroundPullViewIfNeed:(BOOL)disable {
-    self.arrowImage.opacity = disable ? 0.0 : 1.0;
-    [self setState:disable ? AllAroundPullViewStateNone : AllAroundPullViewStateNormal];
+{
+  AllAroundPullViewState _state;
+  AllAroundPullViewPosition _position;
 }
 
-- (void)showActivity:(BOOL)shouldShow animated:(BOOL)animated {
-    if (shouldShow) [self.activityView startAnimating];
-    else [self.activityView stopAnimating];
+static const CGFloat kViewHeight = 60.0;
+static const CGFloat kSidePullViewWidth = 60.0;
 
-    [UIView animateWithDuration:(animated ? 0.1f : 0.0f) animations:^{
+// dynamic ON/OFF set.
+- (void)hideAllAroundPullViewIfNeed:(BOOL)disable
+{
+    self.arrowImage.opacity = disable ? 0.0 : 1.0;
+    self.state = disable ? AllAroundPullViewStateNone : AllAroundPullViewStateNormal;
+}
+
+- (void)showActivity:(BOOL)shouldShow animated:(BOOL)animated
+{
+    if (shouldShow)
+        [self.activityView startAnimating];
+    else
+        [self.activityView stopAnimating];
+
+    [UIView animateWithDuration:(animated ? 0.1 : 0.0) animations:^{
         self.arrowImage.opacity = (shouldShow ? 0.0 : 1.0);
     }];
 }
 
-- (void)setImageFlipped:(BOOL)flipped {
+- (void)setImageFlipped:(BOOL)flipped
+{
     if (self.isSideView) {
         BOOL isLeft = (self.position == AllAroundPullViewPositionLeft);
-        [UIView animateWithDuration:0.1f animations:^{
-            self.arrowImage.transform = (flipped ^ isLeft ? CATransform3DMakeRotation(M_PI / 2.0f, 0.0f, 0.0f, 1.0f) : CATransform3DMakeRotation(M_PI / 2.0f * 3.0f, 0.0f, 0.0f, 1.0f));
+        [UIView animateWithDuration:0.1 animations:^{
+            self.arrowImage.transform = (flipped ^ isLeft ? CATransform3DMakeRotation(M_PI / 2.0, 0.0, 0.0, 1.0) : CATransform3DMakeRotation(M_PI / 2.0 * 3.0, 0.0, 0.0, 1.0));
         }];
     } else {
         BOOL isBottom = (self.position == AllAroundPullViewPositionBottom);
-        [UIView animateWithDuration:0.1f animations:^{
-            self.arrowImage.transform = (flipped ^ isBottom ? CATransform3DMakeRotation(M_PI * 2, 0.0f, 0.0f, 1.0f) : CATransform3DMakeRotation(M_PI, 0.0f, 0.0f, 1.0f));
+        [UIView animateWithDuration:0.1 animations:^{
+            self.arrowImage.transform = (flipped ^ isBottom ? CATransform3DMakeRotation(M_PI * 2, 0.0, 0.0, 1.0) : CATransform3DMakeRotation(M_PI, 0.0, 0.0, 1.0));
         }];
     }
 }
 
-- (id)initWithScrollView:(UIScrollView *)scroll position:(AllAroundPullViewPosition)position action:(void (^)(AllAroundPullView *view))actionHandler {
+- (id)initWithScrollView:(UIScrollView *)scroll position:(AllAroundPullViewPosition)position action:(void (^)(AllAroundPullView *view))actionHandler
+{
     self.allAroundPullViewActionHandler = actionHandler;
     return [self initWithScrollView:scroll position:position];
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     CGFloat visibleBottom = self.position == AllAroundPullViewPositionBottom ? kViewHeight : self.frame.size.height;
     CGFloat visibleLeft = self.position == AllAroundPullViewPositionLeft ? kSidePullViewWidth : self.frame.size.width;
     if (self.isSideView)
-        self.arrowImage.position = CGPointMake(visibleLeft - kSidePullViewWidth + 30.0f, self.frame.size.height / 2.0f);
+        self.arrowImage.position = CGPointMake(visibleLeft - kSidePullViewWidth + 30.0, self.frame.size.height / 2.0);
     else
-        self.arrowImage.position = CGPointMake(self.frame.size.width / 2.0f, visibleBottom - kViewHeight + 30.0f);
+        self.arrowImage.position = CGPointMake(self.frame.size.width / 2.0, visibleBottom - kViewHeight + 30.0);
 }
 
-- (id)initWithScrollView:(UIScrollView *)scroll position:(AllAroundPullViewPosition)position {
+- (id)initWithScrollView:(UIScrollView *)scroll position:(AllAroundPullViewPosition)position
+{
     CGFloat offset;
     CGRect frame;
 
     switch (position) {
         case AllAroundPullViewPositionTop:
         case AllAroundPullViewPositionBottom:
-            offset = (position == AllAroundPullViewPositionBottom) ? scroll.contentSize.height : 0.0f - scroll.bounds.size.height;
-            frame = CGRectMake(0.0f, offset, scroll.bounds.size.width, scroll.bounds.size.height);
+            offset = (position == AllAroundPullViewPositionBottom) ? scroll.contentSize.height : 0.0 - scroll.bounds.size.height;
+            frame = CGRectMake(0.0, offset, scroll.bounds.size.width, scroll.bounds.size.height);
             break;
         case AllAroundPullViewPositionLeft:
         case AllAroundPullViewPositionRight:
             offset = (position == AllAroundPullViewPositionLeft) ? -kSidePullViewWidth : scroll.contentSize.width;
-            frame = CGRectMake(offset, 0.0f, kSidePullViewWidth, scroll.frame.size.height);
+            frame = CGRectMake(offset, 0.0, kSidePullViewWidth, scroll.frame.size.height);
             break;
     }
 
@@ -103,17 +113,17 @@ static const CGFloat kSidePullViewWidth = 60.0f;
         [self.scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
         self.autoresizingMask = self.isSideView ? UIViewAutoresizingFlexibleHeight : UIViewAutoresizingFlexibleWidth;
         self.backgroundColor = [UIColor clearColor];
-        self.threshold = 60.0f;
+        _threshold = 60.0;
         self.arrowImage = [[CALayer alloc] init];
         UIImage *arrow = [UIImage imageNamed:@"arrow.png"];
         self.arrowImage.contents = (id) arrow.CGImage;
         CGRect arrowAndActivityFrame;
         if (self.isSideView) {
-            CGFloat sideArrowPositionOffset = (self.position == AllAroundPullViewPositionLeft) ? kSidePullViewWidth - 10.0f : self.frame.size.width - 15.0f;
-            arrowAndActivityFrame = CGRectMake(sideArrowPositionOffset - kSidePullViewWidth + 30.0f, self.frame.size.height / 2.0f - 30.0f, arrow.size.width, arrow.size.height);
+            CGFloat sideArrowPositionOffset = (self.position == AllAroundPullViewPositionLeft) ? kSidePullViewWidth - 10.0 : self.frame.size.width - 15.0;
+            arrowAndActivityFrame = CGRectMake(sideArrowPositionOffset - kSidePullViewWidth + 30.0, self.frame.size.height / 2.0 - 30.0, arrow.size.width, arrow.size.height);
         } else {
             CGFloat arrowPositionOffset = (self.position == AllAroundPullViewPositionBottom) ? kViewHeight : self.frame.size.height;
-            arrowAndActivityFrame = CGRectMake(self.frame.size.width / 2.0f - arrow.size.width / 2.0f, arrowPositionOffset - kViewHeight + 5.0f, arrow.size.width, arrow.size.height);
+            arrowAndActivityFrame = CGRectMake(self.frame.size.width / 2.0 - arrow.size.width / 2.0, arrowPositionOffset - kViewHeight + 5.0, arrow.size.width, arrow.size.height);
         }
         self.arrowImage.frame = arrowAndActivityFrame;
         self.arrowImage.contentsGravity = kCAGravityResizeAspect;
@@ -128,14 +138,15 @@ static const CGFloat kSidePullViewWidth = 60.0f;
         self.activityView.frame = arrowAndActivityFrame;
         [self addSubview:self.activityView];
 
-        [self setState:AllAroundPullViewStateNormal];
+        self.state = AllAroundPullViewStateNormal;
     }
     return self;
 }
 
-- (void)updatePositionWhenContentsSizeIsChanged {
+- (void)updatePositionWhenContentsSizeIsChanged
+{
     if (self.position == AllAroundPullViewPositionBottom)
-        self.frame = CGRectMake(0.0f, self.scrollView.contentSize.height, self.scrollView.bounds.size.width, self.scrollView.bounds.size.height);
+        self.frame = CGRectMake(0.0, self.scrollView.contentSize.height, self.scrollView.bounds.size.width, self.scrollView.bounds.size.height);
     else if (self.position == AllAroundPullViewPositionRight) {
         CGRect rect = self.frame;
         rect.origin.x = self.scrollView.contentSize.width;
@@ -143,7 +154,8 @@ static const CGFloat kSidePullViewWidth = 60.0f;
     }
 }
 
-- (void)updatePosition {
+- (void)updatePosition
+{
     if (self.isSideView) {
         CGRect rect = self.frame;
         rect.origin.y = self.scrollView.contentOffset.y;
@@ -158,7 +170,8 @@ static const CGFloat kSidePullViewWidth = 60.0f;
 #pragma mark -
 #pragma mark Setters
 
-- (void)setState:(AllAroundPullViewState)state_ {
+- (void)setState:(AllAroundPullViewState)state_
+{
     _state = state_;
 
     switch (_state) {
@@ -184,7 +197,8 @@ static const CGFloat kSidePullViewWidth = 60.0f;
 #pragma mark -
 #pragma mark Getters
 
-- (BOOL)isSideView {
+- (BOOL)isSideView
+{
     if (self.position & (AllAroundPullViewPositionLeft | AllAroundPullViewPositionRight))
         return YES;
     else
@@ -194,11 +208,12 @@ static const CGFloat kSidePullViewWidth = 60.0f;
 #pragma mark -
 #pragma mark UIScrollView
 
-- (BOOL)isScrolledToVisible {
+- (BOOL)isScrolledToVisible
+{
     switch (self.position) {
         case AllAroundPullViewPositionTop:
             {
-                BOOL scrolledAboveContent = self.scrollView.contentOffset.y < 0.0f;
+                BOOL scrolledAboveContent = self.scrollView.contentOffset.y < 0.0;
                 return scrolledAboveContent && ![self isScrolledOverThreshold];
             }
         case AllAroundPullViewPositionBottom:
@@ -214,7 +229,8 @@ static const CGFloat kSidePullViewWidth = 60.0f;
     return NO;
 }
 
-- (BOOL)isScrolledOverThreshold {
+- (BOOL)isScrolledOverThreshold
+{
     switch (self.position) {
         case AllAroundPullViewPositionTop:
             return self.scrollView.contentOffset.y <= -self.threshold;
@@ -232,7 +248,8 @@ static const CGFloat kSidePullViewWidth = 60.0f;
     return NO;
 }
 
-- (void)parkVisible {
+- (void)parkVisible
+{
     self.originalInset = self.scrollView.contentInset;
     if (self.position == AllAroundPullViewPositionTop)
         self.scrollView.contentInset = UIEdgeInsetsMake(kViewHeight + self.originalInset.top, self.originalInset.left, self.originalInset.bottom, self.originalInset.right);
@@ -240,12 +257,14 @@ static const CGFloat kSidePullViewWidth = 60.0f;
         self.scrollView.contentInset = UIEdgeInsetsMake(self.originalInset.top, self.originalInset.left, kViewHeight + self.originalInset.bottom, self.originalInset.right);
 }
 
-- (void)hide {
+- (void)hide
+{
     if (!self.isSideView)
         self.scrollView.contentInset = self.originalInset;
 }
 
-- (void)handleDragWhileLoading {
+- (void)handleDragWhileLoading
+{
     if ([self isScrolledOverThreshold] || [self isScrolledToVisible]) {
         // allow scrolled portion of view to display
         if (self.position == AllAroundPullViewPositionBottom) {
@@ -257,7 +276,8 @@ static const CGFloat kSidePullViewWidth = 60.0f;
     }    
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
     if ([keyPath isEqualToString:@"contentSize"])
         [self updatePositionWhenContentsSizeIsChanged];
 
@@ -281,7 +301,7 @@ static const CGFloat kSidePullViewWidth = 60.0f;
             }
         } else {
             if (_state == AllAroundPullViewStateReady) {
-                [UIView animateWithDuration:0.2f animations:^{
+                [UIView animateWithDuration:0.2 animations:^{
                     [self setState:AllAroundPullViewStateLoading];
                 }];
                 if (self.allAroundPullViewActionHandler)
@@ -291,13 +311,15 @@ static const CGFloat kSidePullViewWidth = 60.0f;
     }
 }
 
-- (void)finishedLoading {
+- (void)finishedLoading
+{
     if (_state == AllAroundPullViewStateLoading)
         [self dismissView];
 }
 
-- (void)dismissView {
-    [UIView animateWithDuration:0.3f animations:^{
+- (void)dismissView
+{
+    [UIView animateWithDuration:0.3 animations:^{
         [self setState:AllAroundPullViewStateNormal];
         [self hide];
     }];
@@ -306,7 +328,8 @@ static const CGFloat kSidePullViewWidth = 60.0f;
 #pragma mark -
 #pragma mark Timeout
 
-- (void)startTimer {
+- (void)startTimer
+{
     if (self.timeout > 0)
         [self performSelector:@selector(dismissView) withObject:nil afterDelay:self.timeout];
 }
@@ -314,7 +337,8 @@ static const CGFloat kSidePullViewWidth = 60.0f;
 #pragma mark -
 #pragma mark Dealloc
 
-- (void)dealloc {
+- (void)dealloc
+{
     [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
     [self.scrollView removeObserver:self forKeyPath:@"contentSize"];
 }
