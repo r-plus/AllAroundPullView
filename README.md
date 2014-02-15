@@ -1,6 +1,8 @@
 # AllAroundPullView [![build](https://travis-ci.org/r-plus/AllAroundPullView.png?branch=master)](https://travis-ci.org/r-plus/AllAroundPullView)
 AllAroundPullView allow you to 4 direction Pull-To-Refresh feature.
 
+![gif](http://gifzo.net/QDABb6h5pY.gif =320x480)
+
 ## Installation
 * Import `AllAroundPullView.h/m and arrow image` to your project.
 * Add *QuartzCore* framework to your project.
